@@ -19,26 +19,30 @@ import static com.mycompany.fire_alarm_system.MainScreen.f3;
 import static com.mycompany.fire_alarm_system.MainScreen.f4;
 import static com.mycompany.fire_alarm_system.MainScreen.f5;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
+//import java.util.concurrent.Executors;
+//import java.util.concurrent.ScheduledExecutorService;
+//import java.util.concurrent.ScheduledFuture;
+//import java.util.concurrent.TimeUnit;
 import java.awt.Color;
 import java.awt.Component;
+import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableCellRenderer;
 
 
 public class Start_Monitoring extends javax.swing.JFrame {
-
+    static int fno=-1;
+    static int mailtrigger;
     /**
      * Creates new form Start_Monitoring
      */
     public Start_Monitoring() {
         initComponents();
-        jTable1.setDefaultRenderer(String.class, new colorcode());
-
+        jTable1.setDefaultRenderer(String.class, new colorcode()); 
+        mailtrigger=0;
     }
-    ScheduledExecutorService ses = Executors.newScheduledThreadPool(1);
+    //ScheduledExecutorService ses = Executors.newScheduledThreadPool(1);
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -48,6 +52,7 @@ public class Start_Monitoring extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jSpinner1 = new javax.swing.JSpinner();
         jPanel2 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -139,11 +144,11 @@ public class Start_Monitoring extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Sensor ID", "Type", "Floor", "Location", "Message"
+                "Time Stamp", "Type", "Floor", "Location", "Message"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false
@@ -161,11 +166,21 @@ public class Start_Monitoring extends javax.swing.JFrame {
         jTable2.setRowHeight(25);
         jScrollPane2.setViewportView(jTable2);
         if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(0).setResizable(false);
-            jTable2.getColumnModel().getColumn(1).setResizable(false);
-            jTable2.getColumnModel().getColumn(2).setResizable(false);
-            jTable2.getColumnModel().getColumn(3).setResizable(false);
-            jTable2.getColumnModel().getColumn(4).setResizable(false);
+            jTable2.getColumnModel().getColumn(0).setMinWidth(150);
+            jTable2.getColumnModel().getColumn(0).setPreferredWidth(160);
+            jTable2.getColumnModel().getColumn(0).setMaxWidth(220);
+            jTable2.getColumnModel().getColumn(1).setMinWidth(100);
+            jTable2.getColumnModel().getColumn(1).setPreferredWidth(120);
+            jTable2.getColumnModel().getColumn(1).setMaxWidth(150);
+            jTable2.getColumnModel().getColumn(2).setMinWidth(100);
+            jTable2.getColumnModel().getColumn(2).setPreferredWidth(120);
+            jTable2.getColumnModel().getColumn(2).setMaxWidth(150);
+            jTable2.getColumnModel().getColumn(3).setMinWidth(100);
+            jTable2.getColumnModel().getColumn(3).setPreferredWidth(120);
+            jTable2.getColumnModel().getColumn(3).setMaxWidth(150);
+            jTable2.getColumnModel().getColumn(4).setMinWidth(150);
+            jTable2.getColumnModel().getColumn(4).setPreferredWidth(230);
+            jTable2.getColumnModel().getColumn(4).setMaxWidth(200);
         }
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -309,261 +324,41 @@ public class Start_Monitoring extends javax.swing.JFrame {
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // TODO add your handling code here:
         MainScreen.dashboard.setVisible(true);
+        MainScreen.tim=1;
         this.dispose();
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
         // TODO add your handling code here:
-        for(Entry<String,Location> mp : f0.entrySet()){
-            if(!mp.getValue().Sid.equals(""))
-            {
-                Runnable task10=() ->{
-                mp.getValue().setScvalue();
-            };
-               ScheduledFuture<?> scheduledFuture = ses.scheduleAtFixedRate(task10, 0, 2, TimeUnit.SECONDS);
-            }
-            if(!mp.getValue().Hid.equals(""))
-                {
-                Runnable task11=() ->{
-                mp.getValue().setHcvalue();
-            };
-               ScheduledFuture<?> scheduledFuture = ses.scheduleAtFixedRate(task11, 0, 2, TimeUnit.SECONDS);
-            }
-            if(!mp.getValue().Cid.equals(""))
-                {
-                Runnable task12=() ->{
-                mp.getValue().setCcvalue();
-            };
-               ScheduledFuture<?> scheduledFuture = ses.scheduleAtFixedRate(task12, 0, 2, TimeUnit.SECONDS);
-            }
-        }
-        for(Entry<String,Location> mp : f1.entrySet()){
-            if(!mp.getValue().Sid.equals(""))
-            {
-                Runnable task20=() ->{
-                mp.getValue().setScvalue();
-            };
-               ScheduledFuture<?> scheduledFuture = ses.scheduleAtFixedRate(task20, 0, 2, TimeUnit.SECONDS);
-            }
-            if(!mp.getValue().Hid.equals(""))
-                {
-                Runnable task21=() ->{
-                mp.getValue().setHcvalue();
-            };
-               ScheduledFuture<?> scheduledFuture = ses.scheduleAtFixedRate(task21, 0, 2, TimeUnit.SECONDS);
-            }
-            if(!mp.getValue().Cid.equals(""))
-                {
-                Runnable task22=() ->{
-                mp.getValue().setCcvalue();
-            };
-               ScheduledFuture<?> scheduledFuture = ses.scheduleAtFixedRate(task22, 0, 2, TimeUnit.SECONDS);
-            }
-        }
-        for(Entry<String,Location> mp : f2.entrySet()){
-            if(!mp.getValue().Sid.equals(""))
-            {
-                Runnable task30=() ->{
-                mp.getValue().setScvalue();
-            };
-               ScheduledFuture<?> scheduledFuture = ses.scheduleAtFixedRate(task30, 0, 2, TimeUnit.SECONDS);
-            }
-            if(!mp.getValue().Hid.equals(""))
-                {
-                Runnable task31=() ->{
-                mp.getValue().setHcvalue();
-            };
-               ScheduledFuture<?> scheduledFuture = ses.scheduleAtFixedRate(task31, 0, 2, TimeUnit.SECONDS);
-            }
-            if(!mp.getValue().Cid.equals(""))
-                {
-                Runnable task32=() ->{
-                mp.getValue().setCcvalue();
-            };
-               ScheduledFuture<?> scheduledFuture = ses.scheduleAtFixedRate(task32, 0, 2, TimeUnit.SECONDS);
-            }
-        }
-        for(Entry<String,Location> mp : f3.entrySet()){
-            if(!mp.getValue().Sid.equals(""))
-            {
-                Runnable task40=() ->{
-                mp.getValue().setScvalue();
-            };
-               ScheduledFuture<?> scheduledFuture = ses.scheduleAtFixedRate(task40, 0, 2, TimeUnit.SECONDS);
-            }
-            if(!mp.getValue().Hid.equals(""))
-                {
-                Runnable task41=() ->{
-                mp.getValue().setHcvalue();
-            };
-               ScheduledFuture<?> scheduledFuture = ses.scheduleAtFixedRate(task41, 0, 2, TimeUnit.SECONDS);
-            }
-            if(!mp.getValue().Cid.equals(""))
-                {
-                Runnable task42=() ->{
-                mp.getValue().setCcvalue();
-            };
-               ScheduledFuture<?> scheduledFuture = ses.scheduleAtFixedRate(task42, 0, 2, TimeUnit.SECONDS);
-            }
-        }
-        for(Entry<String,Location> mp : f4.entrySet()){
-            if(!mp.getValue().Sid.equals(""))
-            {
-                Runnable task50=() ->{
-                mp.getValue().setScvalue();
-            };
-               ScheduledFuture<?> scheduledFuture = ses.scheduleAtFixedRate(task50, 0, 2, TimeUnit.SECONDS);
-            }
-            if(!mp.getValue().Hid.equals(""))
-                {
-                Runnable task51=() ->{
-                mp.getValue().setHcvalue();
-            };
-               ScheduledFuture<?> scheduledFuture = ses.scheduleAtFixedRate(task51, 0, 2, TimeUnit.SECONDS);
-            }
-            if(!mp.getValue().Cid.equals(""))
-                {
-                Runnable task52=() ->{
-                mp.getValue().setCcvalue();
-            };
-               ScheduledFuture<?> scheduledFuture = ses.scheduleAtFixedRate(task52, 0, 2, TimeUnit.SECONDS);
-            }
-        }
-        for(Entry<String,Location> mp : f5.entrySet()){
-            if(!mp.getValue().Sid.equals(""))
-            {
-                Runnable task60=() ->{
-                mp.getValue().setScvalue();
-            };
-               ScheduledFuture<?> scheduledFuture = ses.scheduleAtFixedRate(task60, 0, 2, TimeUnit.SECONDS);
-            }
-            if(!mp.getValue().Hid.equals(""))
-                {
-                Runnable task61=() ->{
-                mp.getValue().setHcvalue();
-            };
-               ScheduledFuture<?> scheduledFuture = ses.scheduleAtFixedRate(task61, 0, 2, TimeUnit.SECONDS);
-            }
-            if(!mp.getValue().Cid.equals(""))
-                {
-                Runnable task62=() ->{
-                mp.getValue().setCcvalue();
-            };
-               ScheduledFuture<?> scheduledFuture = ses.scheduleAtFixedRate(task62, 0, 2, TimeUnit.SECONDS);
-            }
-        }
+        fno=0;
+        Location.allSet();
+        java.util.Timer timer = new java.util.Timer();
+        TimerTask task = new timerTask();
+        timer.scheduleAtFixedRate(task, 0, 3000);
         
-        
-        DefaultTableModel tModel1=(DefaultTableModel)jTable1.getModel();
-        if(tModel1.getRowCount()!=0){
-            int c =tModel1.getRowCount();
-        for(int i=0;i<c;i++){
-            tModel1.removeRow(0);
-        }}
-       
-        DefaultTableModel tModel=(DefaultTableModel)jTable1.getModel();
+        DefaultTableModel tM0=(DefaultTableModel)jTable1.getModel();
         for(Entry<String,Location> mp : f0.entrySet()){
         String data[]={mp.getKey(),String.valueOf(mp.getValue().Scvalue),String.valueOf(mp.getValue().Hcvalue),String.valueOf(mp.getValue().Ccvalue)};
-        tModel.addRow(data);
+        tM0.addRow(data);
         }
         
-        DefaultTableModel tModel22=(DefaultTableModel)jTable2.getModel();
-        if(tModel22.getRowCount()!=0){
-            int c =tModel22.getRowCount();
-        for(int i=0;i<c;i++){
-            tModel22.removeRow(0);
-        }}
-        
-        DefaultTableModel tModel2=(DefaultTableModel)jTable2.getModel();
-        for(Entry<String,Location> mp : f0.entrySet()){
-            if(mp.getValue().Scvalue>Location.Stvalue){
-                String d[]={mp.getValue().Sid,"Smoke","Ground",mp.getKey(),"Threshold Breached!"};
-                tModel2.addRow(d);
+        java.util.Timer mailtimer = new java.util.Timer();
+        TimerTask mailtask = new timerTask(){
+            @Override
+            public void run(){
+                if(mailtrigger==0&&jTable2.getRowCount()>0){
+            Email.send("rsrivastava2341@gmail.com","1as23df4",MainScreen.emailID,"Fire Alert in CC3!","One or more sensors have breached their threshold and alarm has been triggered. Immediate action required.");
+            mailtrigger=1;
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Start_Monitoring.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                JOptionPane.showMessageDialog(jPanel2,"Email Alert Sent.");}
             }
-            if(mp.getValue().Hcvalue>Location.Htvalue){
-                String d[]={mp.getValue().Hid,"Heat","Ground",mp.getKey(),"Threshold Breached!"};
-                tModel2.addRow(d);
-            }
-            if(mp.getValue().Ccvalue>Location.Ctvalue){
-                String d[]={mp.getValue().Cid,"CO","Ground",mp.getKey(),"Threshold Breached!"};
-                tModel2.addRow(d);
-            }
-        }
-        
-        for(Entry<String,Location> mp : f1.entrySet()){
-            if(mp.getValue().Scvalue>Location.Stvalue){
-                String d[]={mp.getValue().Sid,"Smoke","First",mp.getKey(),"Threshold Breached!"};
-                tModel2.addRow(d);
-            }
-            if(mp.getValue().Hcvalue>Location.Htvalue){
-                String d[]={mp.getValue().Hid,"Heat","First",mp.getKey(),"Threshold Breached!"};
-                tModel2.addRow(d);
-            }
-            if(mp.getValue().Ccvalue>Location.Ctvalue){
-                String d[]={mp.getValue().Cid,"CO","First",mp.getKey(),"Threshold Breached!"};
-                tModel2.addRow(d);
-            }
-        }
-        
-        for(Entry<String,Location> mp : f2.entrySet()){
-            if(mp.getValue().Scvalue>Location.Stvalue){
-                String d[]={mp.getValue().Sid,"Smoke","Second",mp.getKey(),"Threshold Breached!"};
-                tModel2.addRow(d);
-            }
-            if(mp.getValue().Hcvalue>Location.Htvalue){
-                String d[]={mp.getValue().Hid,"Heat","Second",mp.getKey(),"Threshold Breached!"};
-                tModel2.addRow(d);
-            }
-            if(mp.getValue().Ccvalue>Location.Ctvalue){
-                String d[]={mp.getValue().Cid,"CO","Second",mp.getKey(),"Threshold Breached!"};
-                tModel2.addRow(d);
-            }
-        }
-        
-        for(Entry<String,Location> mp : f3.entrySet()){
-            if(mp.getValue().Scvalue>Location.Stvalue){
-                String d[]={mp.getValue().Sid,"Smoke","Third",mp.getKey(),"Threshold Breached!"};
-                tModel2.addRow(d);
-            }
-            if(mp.getValue().Hcvalue>Location.Htvalue){
-                String d[]={mp.getValue().Hid,"Heat","Third",mp.getKey(),"Threshold Breached!"};
-                tModel2.addRow(d);
-            }
-            if(mp.getValue().Ccvalue>Location.Ctvalue){
-                String d[]={mp.getValue().Cid,"CO","Third",mp.getKey(),"Threshold Breached!"};
-                tModel2.addRow(d);
-            }
-        }
-        
-        for(Entry<String,Location> mp : f4.entrySet()){
-            if(mp.getValue().Scvalue>Location.Stvalue){
-                String d[]={mp.getValue().Sid,"Smoke","Fourth",mp.getKey(),"Threshold Breached!"};
-                tModel2.addRow(d);
-            }
-            if(mp.getValue().Hcvalue>Location.Htvalue){
-                String d[]={mp.getValue().Hid,"Heat","Fourth",mp.getKey(),"Threshold Breached!"};
-                tModel2.addRow(d);
-            }
-            if(mp.getValue().Ccvalue>Location.Ctvalue){
-                String d[]={mp.getValue().Cid,"CO","Fourth",mp.getKey(),"Threshold Breached!"};
-                tModel2.addRow(d);
-            }
-        }
-        
-        for(Entry<String,Location> mp : f5.entrySet()){
-            if(mp.getValue().Scvalue>Location.Stvalue){
-                String d[]={mp.getValue().Sid,"Smoke","Fifth",mp.getKey(),"Threshold Breached!"};
-                tModel2.addRow(d);
-            }
-            if(mp.getValue().Hcvalue>Location.Htvalue){
-                String d[]={mp.getValue().Hid,"Heat","Fifth",mp.getKey(),"Threshold Breached!"};
-                tModel2.addRow(d);
-            }
-            if(mp.getValue().Ccvalue>Location.Ctvalue){
-                String d[]={mp.getValue().Cid,"CO","Fifth",mp.getKey(),"Threshold Breached!"};
-                tModel2.addRow(d);
-            }
-        }
+    };
+        mailtimer.scheduleAtFixedRate(mailtask, 0, 60000); 
+
     }//GEN-LAST:event_jButton3MouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -572,118 +367,103 @@ public class Start_Monitoring extends javax.swing.JFrame {
 
     private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
         // TODO add your handling code here:
+        fno=1;
         jLabel1.setText("1st Floor");
-        DefaultTableModel tModel1=(DefaultTableModel)jTable1.getModel();
-        if(tModel1.getRowCount()!=0){
-            int c =tModel1.getRowCount();
+        DefaultTableModel tM1=(DefaultTableModel)jTable1.getModel();
+        if(tM1.getRowCount()!=0){
+            int c =tM1.getRowCount();
         for(int i=0;i<c;i++){
-            tModel1.removeRow(0);
+            tM1.removeRow(0);
         }}
-        DefaultTableModel tModel=(DefaultTableModel)jTable1.getModel();
+        DefaultTableModel tM12=(DefaultTableModel)jTable1.getModel();
         for(Entry<String,Location> mp : f1.entrySet()){       
-        
-            Runnable task2=()->{
         String data[]={mp.getKey(),String.valueOf(mp.getValue().Scvalue),String.valueOf(mp.getValue().Hcvalue),String.valueOf(mp.getValue().Ccvalue)};
-        tModel.addRow(data);
-        };
-        ScheduledFuture<?> scheduledFuture = ses.scheduleAtFixedRate(task2, 0, 2, TimeUnit.SECONDS); 
+        tM12.addRow(data);
         }
     }//GEN-LAST:event_jMenu2MouseClicked
 
     private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu3MouseClicked
         // TODO add your handling code here:
+        fno=2;
         jLabel1.setText("2nd Floor");
-        DefaultTableModel tModel1=(DefaultTableModel)jTable1.getModel();
-       if(tModel1.getRowCount()!=0){
-            int c =tModel1.getRowCount();
+        DefaultTableModel tM2=(DefaultTableModel)jTable1.getModel();
+       if(tM2.getRowCount()!=0){
+            int c =tM2.getRowCount();
         for(int i=0;i<c;i++){
-            tModel1.removeRow(0);
+            tM2.removeRow(0);
         }}
-        DefaultTableModel tModel=(DefaultTableModel)jTable1.getModel();
+        DefaultTableModel tM22=(DefaultTableModel)jTable1.getModel();
         for(Entry<String,Location> mp : f2.entrySet()){
-        Runnable task3=()->{
         String data[]={mp.getKey(),String.valueOf(mp.getValue().Scvalue),String.valueOf(mp.getValue().Hcvalue),String.valueOf(mp.getValue().Ccvalue)};
-        tModel.addRow(data);
-        };
-        ScheduledFuture<?> scheduledFuture = ses.scheduleAtFixedRate(task3, 0, 2, TimeUnit.SECONDS); 
-        
+        tM22.addRow(data);
         }
     }//GEN-LAST:event_jMenu3MouseClicked
 
     private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
         // TODO add your handling code here:
+        fno=0;
         jLabel1.setText("Ground Floor");
-        DefaultTableModel tModel1=(DefaultTableModel)jTable1.getModel();
-        if(tModel1.getRowCount()!=0){
-            int c =tModel1.getRowCount();
+        DefaultTableModel tM0=(DefaultTableModel)jTable1.getModel();
+        if(tM0.getRowCount()!=0){
+            int c =tM0.getRowCount();
         for(int i=0;i<c;i++){
-            tModel1.removeRow(0);
+            tM0.removeRow(0);
         }}
-        DefaultTableModel tModel=(DefaultTableModel)jTable1.getModel();
+        DefaultTableModel tM02=(DefaultTableModel)jTable1.getModel();
         for(Entry<String,Location> mp : f0.entrySet()){
-        Runnable task111=()->{
         String data[]={mp.getKey(),String.valueOf(mp.getValue().Scvalue),String.valueOf(mp.getValue().Hcvalue),String.valueOf(mp.getValue().Ccvalue)};
-        tModel.addRow(data);
-        };
-        ScheduledFuture<?> scheduledFuture = ses.scheduleAtFixedRate(task111, 0, 2, TimeUnit.SECONDS); 
+        tM02.addRow(data);
         }
     }//GEN-LAST:event_jMenu1MouseClicked
 
     private void jMenu4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu4MouseClicked
         // TODO add your handling code here:
+        fno=3;
         jLabel1.setText("3rd Floor");
-        DefaultTableModel tModel1=(DefaultTableModel)jTable1.getModel();
-        if(tModel1.getRowCount()!=0){
-            int c =tModel1.getRowCount();
+        DefaultTableModel tM3=(DefaultTableModel)jTable1.getModel();
+        if(tM3.getRowCount()!=0){
+            int c =tM3.getRowCount();
         for(int i=0;i<c;i++){
-            tModel1.removeRow(0);
+            tM3.removeRow(0);
         }}
-        DefaultTableModel tModel=(DefaultTableModel)jTable1.getModel();
+        DefaultTableModel tM32=(DefaultTableModel)jTable1.getModel();
         for(Entry<String,Location> mp : f3.entrySet()){
-       Runnable task4=()->{
         String data[]={mp.getKey(),String.valueOf(mp.getValue().Scvalue),String.valueOf(mp.getValue().Hcvalue),String.valueOf(mp.getValue().Ccvalue)};
-        tModel.addRow(data);
-        };
-        ScheduledFuture<?> scheduledFuture = ses.scheduleAtFixedRate(task4, 0, 2, TimeUnit.SECONDS); 
+        tM32.addRow(data);
         }
     }//GEN-LAST:event_jMenu4MouseClicked
 
     private void jMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu5MouseClicked
         // TODO add your handling code here:
+        fno=4;
         jLabel1.setText("4th Floor");
-        DefaultTableModel tModel1=(DefaultTableModel)jTable1.getModel();
-        if(tModel1.getRowCount()!=0){
-            int c =tModel1.getRowCount();
+        DefaultTableModel tM4=(DefaultTableModel)jTable1.getModel();
+        if(tM4.getRowCount()!=0){
+            int c =tM4.getRowCount();
         for(int i=0;i<c;i++){
-            tModel1.removeRow(0);
+            tM4.removeRow(0);
         }}
-        DefaultTableModel tModel=(DefaultTableModel)jTable1.getModel();
+        DefaultTableModel tM42=(DefaultTableModel)jTable1.getModel();
         for(Entry<String,Location> mp : f4.entrySet()){
-        Runnable task5=()->{
         String data[]={mp.getKey(),String.valueOf(mp.getValue().Scvalue),String.valueOf(mp.getValue().Hcvalue),String.valueOf(mp.getValue().Ccvalue)};
-        tModel.addRow(data);
-        };
-        ScheduledFuture<?> scheduledFuture = ses.scheduleAtFixedRate(task5, 0, 2, TimeUnit.SECONDS); 
+        tM42.addRow(data);
         }
     }//GEN-LAST:event_jMenu5MouseClicked
 
     private void jMenu6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu6MouseClicked
         // TODO add your handling code here:
+        fno=5;
         jLabel1.setText("5th Floor");
-        DefaultTableModel tModel1=(DefaultTableModel)jTable1.getModel();
-        if(tModel1.getRowCount()!=0){
-            int c =tModel1.getRowCount();
+        DefaultTableModel tM5=(DefaultTableModel)jTable1.getModel();
+        if(tM5.getRowCount()!=0){
+            int c =tM5.getRowCount();
         for(int i=0;i<c;i++){
-            tModel1.removeRow(0);
+            tM5.removeRow(0);
         }}
-        DefaultTableModel tModel=(DefaultTableModel)jTable1.getModel();
+        DefaultTableModel tM52=(DefaultTableModel)jTable1.getModel();
         for(Entry<String,Location> mp : f5.entrySet()){
-        Runnable task6=()->{
         String data[]={mp.getKey(),String.valueOf(mp.getValue().Scvalue),String.valueOf(mp.getValue().Hcvalue),String.valueOf(mp.getValue().Ccvalue)};
-        tModel.addRow(data);
-        };
-        ScheduledFuture<?> scheduledFuture = ses.scheduleAtFixedRate(task6, 0, 2, TimeUnit.SECONDS); 
-        
+        tM52.addRow(data);
         }
     }//GEN-LAST:event_jMenu6MouseClicked
 
@@ -696,7 +476,7 @@ public class Start_Monitoring extends javax.swing.JFrame {
         // TODO add your handling code here:
         jMenu1.setForeground(new java.awt.Color(29,53,87));
     }//GEN-LAST:event_jMenu1FocusLost
-
+   
     /**
      * @param args the command line arguments
      */
@@ -727,6 +507,7 @@ public class Start_Monitoring extends javax.swing.JFrame {
         return c;
     }
     }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -757,6 +538,8 @@ public class Start_Monitoring extends javax.swing.JFrame {
                 new Start_Monitoring().setVisible(true);
             }
         });
+        
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -775,7 +558,8 @@ public class Start_Monitoring extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JSpinner jSpinner1;
+    protected static javax.swing.JTable jTable1;
+    protected static javax.swing.JTable jTable2;
     // End of variables declaration//GEN-END:variables
 }
